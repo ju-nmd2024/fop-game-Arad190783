@@ -6,15 +6,15 @@ let mouthY = 400;
 let s = 0.6;
 let doughnutX = 370;
 let doughnutY = 80;
-let velocity = 0;
+let velocity = 0.1;
 let acceleration = 0;
-let gameState = "start";
+let gameState = "Instructions"; //hereeeeeeeeeeeeeeee
 
 function startScreen() {
   background(255, 165, 111);
   textSize(65);
   text("Doughnutz", width / 2 - 200, 200);
-  //how to play
+  //how to play button
   push();
   fill(0);
   ellipse(width / 2 - 45, 390, 200, 60);
@@ -22,7 +22,7 @@ function startScreen() {
   fill(255);
   text("How to play", width / 2 - 125, 400);
   pop();
-  //start
+  //start button
   push();
   fill(0);
   ellipse(width / 2 - 45, 490, 200, 60);
@@ -31,6 +31,27 @@ function startScreen() {
   text("START", width / 2 - 100, 500);
   pop();
 }
+
+function instructionsScreen() {
+  background(255, 165, 111);
+  fill(0);
+  textSize(29);
+  text("INSTRUCTIONS:", 200, 200);
+  textSize(20.75);
+  text(
+    "You have to feed the mouth at the bottom of the page. In order to do that, you have to control the speed of the doughnut dropping downwards to the mouth. You can control the velocity of the drop by clicking the PgUp button or just the spacebar. Keep in mind, if the doughnut is too fast, they will choke and die! Good luck!",
+    30,
+    350,
+    600
+  );
+  fill(0);
+  ellipse(325, 600, 200, 60);
+  fill(255);
+  textSize(35);
+  text("Start Now!", 245, 610);
+}
+
+function resultScreen() {}
 
 function doughnut(doughnutX, doughnutY) {
   //doughnut's outline/shape
@@ -389,25 +410,45 @@ function draw() {
     background(235, 220, 190);
     doughnut(doughnutX, doughnutY);
     mouth(mouthX, mouthY);
+  } else if (gameState === "Instructions") {
+    instructionsScreen();
   }
+
   //buttons functionality
-  if (mouseIsPressed) {
-    if (mouseX > 190 && mouseX < 390 && mouseY < 520 && mouseY > 460) {
-      gameState = "Game";
-    } else if (mouseIsPressed) {
-      if (mouseX > 190 && mouseX < 390 && mouseY > 360 && mouseY < 420) {
-        gameState = "Instructions";
+  if (gameState === "start") {
+    if (mouseIsPressed) {
+      if (mouseX > 190 && mouseX < 390 && mouseY < 520 && mouseY > 460) {
+        gameState = "Game";
+      } else if (mouseIsPressed) {
+        if (mouseX > 190 && mouseX < 390 && mouseY > 360 && mouseY < 420) {
+          gameState = "Instructions";
+        }
       }
     }
   }
+  if (gameState === "Instructions") {
+    if (mouseIsPressed) {
+      if (mouseX > 225 && mouseX < 425 && mouseY > 570 && mouseY < 630) {
+        gameState === "Game";
+      }
+    }
+  }
+  //starting mechanic
+  if (gameState === "Game") {
+    /*     velocity += 2;
+     */ acceleration += 0.01;
 
-  doughnutY += velocity;
-  velocity += acceleration;
+    doughnutY += velocity;
+    velocity += acceleration;
+  }
+
   if (doughnutY > 800) {
-    velocity *= 0;
+    velocity = 0;
+    acceleration = 0;
+    console.log(velocity);
   }
 
   if (keyIsDown(38) || keyIsDown(32)) {
-    velocity -= 1;
+    velocity -= 3;
   }
 }
