@@ -8,7 +8,7 @@ let doughnutX = 370;
 let doughnutY = 80;
 let velocity = 0.1;
 let acceleration = 0;
-let gameState = "Win"; //hereeeeeeeeeeeeeeee
+let gameState = "Start";
 
 function startScreen() {
   background(255, 165, 111);
@@ -495,27 +495,24 @@ function draw() {
   if (gameState === "Game") {
     /*     velocity += 2;
      */ acceleration += 0.01;
+    if (keyIsDown(38) || keyIsDown(32)) {
+      velocity -= 3;
+    }
 
     doughnutY += velocity;
     velocity += acceleration;
-  }
-
-  /*   console.log(velocity);
-   */ if (doughnutY > 800) {
-    if (velocity > 25) {
-      gameState = "Lost";
-      doughnutY = 80;
-      velocity = 0;
-      acceleration = 0;
-    } else if (velocity < 25) {
-      gameState = "Win";
-      doughnutY = 0;
-      velocity = 0;
-      acceleration = 0;
+    if (doughnutY > 800) {
+      if (velocity > 25) {
+        gameState = "Lost";
+        doughnutY = 80;
+        velocity = 0.1;
+        acceleration = 0;
+      } else if (velocity < 25) {
+        gameState = "Win";
+        doughnutY = 80;
+        velocity = 0.1;
+        acceleration = 0;
+      }
     }
-  }
-
-  if (keyIsDown(38) || keyIsDown(32)) {
-    velocity -= 3;
   }
 }
