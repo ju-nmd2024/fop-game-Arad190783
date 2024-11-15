@@ -8,7 +8,7 @@ let doughnutX = 370;
 let doughnutY = 80;
 let velocity = 0.1;
 let acceleration = 0;
-let gameState = "Instructions"; //hereeeeeeeeeeeeeeee
+let gameState = "Win"; //hereeeeeeeeeeeeeeee
 
 function startScreen() {
   background(255, 165, 111);
@@ -50,8 +50,41 @@ function instructionsScreen() {
   textSize(35);
   text("Start Now!", 245, 610);
 }
+function winScreen() {
+  background(50, 205, 50);
+  push();
+  stroke(255);
+  strokeWeight(2.5);
+  textSize(60);
+  fill(255);
+  text("YOU WON!", 160, 200);
+  pop();
+  fill(0);
+  ellipse(325, 500, 200, 60);
+  ellipse(325, 600, 200, 60);
+  fill(255);
+  text("Play Again", 245, 510);
+  textSize(35);
+  text("Menu", 280, 610);
+}
 
-function resultScreen() {}
+function lostScreen() {
+  background(102, 0, 0);
+  push();
+  stroke(0, 0, 0);
+  strokeWeight(2.5);
+  textSize(60);
+  fill(0);
+  text("YOU'VE LOST!", 125, 200);
+  pop();
+  fill(0);
+  ellipse(325, 500, 200, 60);
+  ellipse(325, 600, 200, 60);
+  fill(255);
+  text("Play Again", 245, 510);
+  textSize(35);
+  text("Menu", 280, 610);
+}
 
 function doughnut(doughnutX, doughnutY) {
   //doughnut's outline/shape
@@ -404,7 +437,7 @@ function mouth() {
 function draw() {
   clear();
   //different states
-  if (gameState === "start") {
+  if (gameState === "Start") {
     startScreen();
   } else if (gameState === "Game") {
     background(235, 220, 190);
@@ -412,10 +445,14 @@ function draw() {
     mouth(mouthX, mouthY);
   } else if (gameState === "Instructions") {
     instructionsScreen();
+  } else if (gameState === "Lost") {
+    lostScreen();
+  } else if (gameState === "Win") {
+    winScreen();
   }
 
   //buttons functionality
-  if (gameState === "start") {
+  if (gameState === "Start") {
     if (mouseIsPressed) {
       if (mouseX > 190 && mouseX < 390 && mouseY < 520 && mouseY > 460) {
         gameState = "Game";
@@ -426,10 +463,31 @@ function draw() {
       }
     }
   }
+
   if (gameState === "Instructions") {
     if (mouseIsPressed) {
       if (mouseX > 225 && mouseX < 425 && mouseY > 570 && mouseY < 630) {
-        gameState === "Game";
+        gameState = "Game";
+      }
+    }
+  }
+
+  //restarting mechanic after losing
+  if (gameState === "Lost") {
+    if (mouseIsPressed) {
+      if (mouseX > 225 && mouseX < 425 && mouseY > 470 && mouseY < 530) {
+        gameState = "Game";
+      } else if (mouseX > 225 && mouseX < 425 && mouseY > 570 && mouseY < 630) {
+        gameState = "Start";
+      }
+    }
+  }
+  if (gameState === "Win") {
+    if (mouseIsPressed) {
+      if (mouseX > 225 && mouseX < 425 && mouseY > 470 && mouseY < 530) {
+        gameState = "Game";
+      } else if (mouseX > 225 && mouseX < 425 && mouseY > 570 && mouseY < 630) {
+        gameState = "Start";
       }
     }
   }
@@ -442,10 +500,19 @@ function draw() {
     velocity += acceleration;
   }
 
-  if (doughnutY > 800) {
-    velocity = 0;
-    acceleration = 0;
-    console.log(velocity);
+  /*   console.log(velocity);
+   */ if (doughnutY > 800) {
+    if (velocity > 25) {
+      gameState = "Lost";
+      doughnutY = 80;
+      velocity = 0;
+      acceleration = 0;
+    } else if (velocity < 25) {
+      gameState = "Win";
+      doughnutY = 0;
+      velocity = 0;
+      acceleration = 0;
+    }
   }
 
   if (keyIsDown(38) || keyIsDown(32)) {
