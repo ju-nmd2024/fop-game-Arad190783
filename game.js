@@ -13,22 +13,22 @@ let gameState = "Start";
 function startScreen() {
   background(255, 165, 111);
   textSize(65);
-  text("Doughnutz", width / 2 - 200, 200);
+  text("Doughnutz", 175, 200);
   //how to play button
   push();
   fill(0);
-  ellipse(width / 2 - 45, 390, 200, 60);
+  ellipse(325, 390, 200, 60);
   textSize(30);
   fill(255);
-  text("How to play", width / 2 - 125, 400);
+  text("How to play", 246, 400);
   pop();
   //start button
   push();
   fill(0);
-  ellipse(width / 2 - 45, 490, 200, 60);
+  ellipse(325, 490, 200, 60);
   textSize(35);
   fill(255);
-  text("START", width / 2 - 100, 500);
+  text("START", 270, 500);
   pop();
 }
 
@@ -36,7 +36,7 @@ function instructionsScreen() {
   background(255, 165, 111);
   fill(0);
   textSize(29);
-  text("INSTRUCTIONS:", 200, 200);
+  text("INSTRUCTIONS:", 215, 200);
   textSize(20.75);
   text(
     "You have to feed the mouth at the bottom of the page. In order to do that, you have to control the speed of the doughnut dropping downwards to the mouth. You can control the velocity of the drop by clicking the PgUp button or just the spacebar. Keep in mind, if the doughnut is too fast, they will choke and die! Good luck!",
@@ -502,12 +502,12 @@ function draw() {
     doughnutY += velocity;
     velocity += acceleration;
     if (doughnutY > 800) {
-      if (velocity > 25) {
+      if (velocity > 13) {
         gameState = "Lost";
         doughnutY = 80;
         velocity = 0.1;
         acceleration = 0;
-      } else if (velocity < 25) {
+      } else if (velocity < 13) {
         gameState = "Win";
         doughnutY = 80;
         velocity = 0.1;
